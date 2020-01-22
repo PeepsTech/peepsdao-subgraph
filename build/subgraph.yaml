@@ -1,0 +1,81 @@
+specVersion: 0.0.3
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: rinkeby
+    source:
+      address: "0x831e47A8C4f256621Ba0B6780fBb443B9a726F70"
+      abi: Contract
+      startBlock: 5833101
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - NewContract
+      abis:
+        - name: Contract
+          file: Contract/abis/Contract.json
+      eventHandlers:
+        - event: NewContract(uint256,address,uint256,bool,address)
+          handler: handleNewContract
+      file: Contract/Contract.wasm
+templates:
+  - kind: ethereum/contract
+    name: PeepsMoloch
+    network: rinkeby
+    source:
+      abi: PeepsMoloch
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      file: templates/PeepsMoloch/PeepsMoloch.wasm
+      entities:
+        - AdminAdded
+        - AdminRemoved
+        - CanQuit
+        - CancelProposal
+        - MemberAdded
+        - ProcessProposal
+        - Ragequit
+        - SponsorProposal
+        - SubmitProposal
+        - SubmitVote
+        - SummonComplete
+        - TokenAdded
+        - UpdateDelegateKey
+      abis:
+        - name: PeepsMoloch
+          file: PeepsMoloch/abis/PeepsMoloch.json
+      eventHandlers:
+        - event: AdminAdded(indexed address)
+          handler: handleAdminAdded
+        - event: AdminRemoved(indexed address)
+          handler: handleAdminRemoved
+        - event: CanQuit(indexed address)
+          handler: handleCanQuit
+        - event: CancelProposal(indexed uint256,address)
+          handler: handleCancelProposal
+        - event: MemberAdded(indexed address,uint256,uint256)
+          handler: handleMemberAdded
+        - event: ProcessProposal(indexed uint256,indexed address,indexed
+            address,uint256,uint256,bool)
+          handler: handleProcessProposal
+        - event: Ragequit(indexed address,uint256,address[])
+          handler: handleRagequit
+        - event: SponsorProposal(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleSponsorProposal
+        - event: SubmitProposal(uint256,indexed address,indexed address,indexed
+            address,uint256,address,uint256,address,address,uint256,address)
+          handler: handleSubmitProposal
+        - event: SubmitVote(indexed uint256,indexed address,indexed address,uint8)
+          handler: handleSubmitVote
+        - event: SummonComplete(indexed address,uint256)
+          handler: handleSummonComplete
+        - event: TokenAdded(indexed address)
+          handler: handleTokenAdded
+        - event: UpdateDelegateKey(indexed address,address)
+          handler: handleUpdateDelegateKey

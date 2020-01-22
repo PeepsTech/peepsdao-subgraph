@@ -1,0 +1,75 @@
+type PeepsFactory @entity {
+  id: ID!
+  count: BigInt!
+  peepsId: BigInt! # uint256
+  _summoner: Bytes! # address
+  peepsmoloch: Bytes! # address
+  _minDonation: BigInt!
+  newContract: String
+}
+
+type Vote @entity {
+  id: ID!
+  peepsmolochAddress: Bytes!
+  timestamp:String!
+  proposalIndex:BigInt!
+  delegateKey: Bytes!
+  memberAddress: Bytes!
+  uintVote: Int!
+  proposal: Proposal!
+  member: Member!
+}
+
+
+type Proposal @entity {
+  id: ID!
+  peepsmolochAddress: Bytes!
+  timestamp: String!
+  proposalIndex: BigInt!
+  delegateKey: Bytes!
+  applicant: Applicant!
+  applicantAddress: Bytes!
+  tributeOffered: BigInt
+  sharesRequested: BigInt
+  paymentRequested: BigInt
+  tributeToken: Bytes
+  paymentToken: Bytes
+  yesVotes: BigInt
+  noVotes: BigInt
+  processed: Boolean
+  didPass: Boolean
+  aborted: Boolean
+  votes: [Vote!]
+  details: String
+  maxTotalSharesAtYesVote: BigInt
+}
+
+type Applicant @entity {
+  id: ID!
+  peepsmolochAddress: Bytes!
+  timestamp:String!
+  proposalIndex: BigInt!
+  delegateKey: Bytes!
+  member: Member!
+  memberAddress: Bytes!
+  applicantAddress: Bytes!
+  tributeOffered: BigInt!
+  sharesRequested:BigInt!
+  didPass: Boolean!
+  aborted: Boolean!
+  votes: [Vote!]!
+  proposal: Proposal!
+}
+
+type Member @entity {
+  id: ID!
+  memberAddress: Bytes!
+  peepsmolochAddress: Bytes!
+  delegateKey: Bytes!
+  tributeAmount: BigInt
+  shares: BigInt!
+  isActive: Boolean!
+  didRagequit: Boolean!
+  votes: [Vote!]!
+  submissions: [Proposal!]!
+}
