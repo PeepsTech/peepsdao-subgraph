@@ -1,0 +1,23 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: rinkeby
+    source:
+      address: "0x2C1D483eA386Af3a52Fdd519a0A8a6b15f57c314"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - NewPeepsMoloch
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: NewPeepsMoloch(indexed address,indexed address,indexed address,uint256,bool)
+          handler: handleNewPeepsMoloch
+      file: ./src/mapping.ts
