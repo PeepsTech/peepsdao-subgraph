@@ -1,16 +1,17 @@
 import { BigInt } from "@graphprotocol/graph-ts"
 import { Contract, NewPeepsMoloch } from "../generated/Contract/Contract"
-import { ExampleEntity } from "../generated/schema"
+import { PeepsFactory } from "../generated/schema"
+import { PeepsMoloch } from "../generated/templates"
 
 export function handleNewPeepsMoloch(event: NewPeepsMoloch): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let entity = PeepsFactory.load(event.params.newPeeps.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+    entity = new PeepsFactory(event.params.newPeeps.toHex())
 
     // Entity fields can be set using simple assignments
     entity.count = BigInt.fromI32(0)
@@ -21,7 +22,9 @@ export function handleNewPeepsMoloch(event: NewPeepsMoloch): void {
 
   // Entity fields can be set based on event parameters
   entity._summoner = event.params._summoner
-  entity.P = event.params.P
+  entity.newPeeps = event.params.newPeeps
+
+  PeepsMoloch.create(event.params.newPeeps);
 
   // Entities can be written to the store with `.save()`
   entity.save()

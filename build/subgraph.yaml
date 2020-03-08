@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Contract
@@ -16,11 +16,11 @@ dataSources:
         - NewPeepsMoloch
       abis:
         - name: Contract
-          file: ./abis/Contract.json
+          file: Contract/abis/Contract.json
       eventHandlers:
         - event: NewPeepsMoloch(indexed address,indexed address)
           handler: handleNewPeepsMoloch
-      file: ./src/mapping.ts
+      file: Contract/Contract.wasm
 templates:
   - kind: ethereum/contract
     name: PeepsMoloch
@@ -31,7 +31,7 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.2
       language: wasm/assemblyscript
-      file: ./src/peepsmoloch-mapping.ts
+      file: templates/PeepsMoloch/PeepsMoloch.wasm
       entities:
         - AdminAdded
         - AdminRemoved
@@ -51,7 +51,7 @@ templates:
         - Withdraw
       abis:
         - name: PeepsMoloch
-          file: ./abis/PeepsMoloch.json
+          file: PeepsMoloch/abis/PeepsMoloch.json
       eventHandlers:
         - event: AdminAdded(indexed address)
           handler: handleAdminAdded
@@ -73,11 +73,14 @@ templates:
           handler: handleRagequit
         - event: SponsorProposal(indexed address,indexed address,uint256,uint256,uint256)
           handler: handleSponsorProposal
-        - event: SubmitProposal(indexed address,uint256,uint256,address,uint256,address,string,bool[5],uint256,indexed address)
+        - event: SubmitProposal(indexed
+            address,uint256,uint256,address,uint256,address,string,bool[5],uint256,indexed
+            address)
           handler: handleSubmitProposal
         - event: SubmitVote(indexed uint256,indexed address,indexed address,uint8)
           handler: handleSubmitVote
-        - event: SummonComplete(indexed address,address[],uint256,uint256,uint256,uint256,uint256,uint256)
+        - event: SummonComplete(indexed
+            address,address[],uint256,uint256,uint256,uint256,uint256,uint256)
           handler: handleSummonComplete
         - event: TokenAdded(indexed address)
           handler: handleTokenAdded
